@@ -1,9 +1,10 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import { Button, Input, DatePicker} from 'antd';
+import {Button, Input, DatePicker, Modal} from 'antd';
 import {withRouter} from "react-router";
 import '../styles/Register.css';
 import axios from 'axios'
+import {grapghqlPath} from "../App";
 
 const dateFormat = 'YYYY/MM/DD';
 
@@ -17,29 +18,49 @@ class Register extends React.Component {
 
     handleChangeEmail = e => {
         this.setState({
-            email: e.getValue()
+            email: e.target.value
         });
     };
 
     handleChangeUsername = e => {
         this.setState({
-            username: e.getValue()
+            username: e.target.value
         });
     };
 
     handleChangePassword = e => {
         this.setState({
-            password: e.getValue()
+            password: e.target.value
         });
     };
 
 
     handleChangeBirthDate = e => {
         this.setState({
-            birthDate: e.getValue()
+            birthDate: e.target.value
         });
     };
 
+    handleClickSignup = e => {
+        axios.post( grapghqlPath,
+            {"query":"mutation{addUser( user: { username: \""+this.state.username+"\", email: \""+this.state.username+"\", password: \""+this.state.password+"\"}){success}}"
+            }).then(response => {
+            console.log(response);
+            if(response.data.errors != null){
+                Modal.error({
+                    centered: true,
+                    title: 'Error',
+                    content: response.data.errors[0].message,
+                });
+            } else {
+                Modal.success({
+                    centered: true,
+                    title: 'Successful sign up!',
+                    content: "Welcome " + this.state.username+"!",
+                })
+            }
+        });
+    };
 
     render() {
 
@@ -61,7 +82,7 @@ class Register extends React.Component {
                     <DatePicker style={{width: 300 }} placeholder="Birth Date: " defaultValue="" onBlur={this.handleChangeBirthDate} />
                 </div>
                 <div style={{ marginTop: 30, width: 100 }}>
-                    <Button block>Sign up</Button>
+                    <Button block onClick={this.handleClickSignup}>Sign up</Button>
                 </div>
                 <div style={{ marginTop: 30, width: 100 }}>
                     <Button block href="/login">Log in</Button>

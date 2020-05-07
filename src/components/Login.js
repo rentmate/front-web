@@ -1,32 +1,50 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import { Button, Input, DatePicker} from 'antd';
+import { Button, Input, Modal, Space} from 'antd';
 import {withRouter} from "react-router";
 import '../styles/Chats.css';
 import axios from 'axios'
-
-const dateFormat = 'YYYY/MM/DD';
+import {grapghqlPath} from "../App";
 
 class Login extends React.Component {
+
     state = {
         username: 'Ale',
-        password: 'Gary'
+        password: 'Gary',
+        errMessage: ''
     };
 
     handleChangeUsername = e => {
         this.setState({
-            username: e.getValue()
+            username: e.target.value
         });
     };
 
     handleChangePassword = e => {
         this.setState({
-            username: e.getValue()
+            password: e.target.value
         });
     };
 
     handleClickLogin = e => {
-        //axios.
+        axios.post( grapghqlPath,
+            {"query":"mutation{login(login: {email: \""+this.state.username+"\", password: \""+this.state.password+"\"}){user{username}, token}}"
+            }).then(response => {
+            console.log(response);
+            if(response.data.errors != null){
+                Modal.error({
+                    centered: true,
+                    title: 'Error',
+                    content: response.data.errors[0].message,
+                });
+            } else {
+                Modal.success({
+                    centered: true,
+                    title: 'Successful log in!',
+                    content: "Welcome " + response.data.data.login.user.username+"!",
+                })
+            }
+        });
     };
 
     render() {
