@@ -1,0 +1,10 @@
+.r-container{
+    max-width: 700px;
+    height: 100vh !important;
+    margin: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
