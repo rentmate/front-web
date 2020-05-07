@@ -5,7 +5,7 @@ import moment from 'moment';
 import {withRouter} from "react-router";
 import '../styles/Chats.css';
 import axios from 'axios'
-
+import {grapghqlPath} from '../App';
 
 const { TextArea } = Input;
 
@@ -46,29 +46,31 @@ class Chats extends React.Component {
         console.log("From: "+this.state.from);
         console.log("To: "+this.state.to);
         console.log("Subject: "+this.state.subject);
-        axios.post('http://192.168.99.100:3030/graphql',
+        axios.post( grapghqlPath,
             {"query":"query {"+
                     "\nmessageByChat(user1: \""+ this.state.from+"\", user2: \""+this.state.to+"\", subject: \""+this.state.subject+"\") {"+
                     "\nuser1, content, date"+
                     "\n}"+
                     "\n}"
             }).then(response => {
-                let data = response.data.data.messageByChat;
             console.log(response.data.data["messageByChat"]);
-            let messages = [];
 
-            for (let i = 0; i <data.length; i++) {
-                messages.push({ author: (data[i].user1 == this.state.from)? "You" : data[i].user1 ,
-                                content: data[i].content,
-                                datetime: moment(parseInt(data[i].date)).fromNow()
-                              })
+            if(response.data.data != null) {
+                let data = response.data.data.messageByChat;
+                let messages = [];
+
+                for (let i = 0; i < data.length; i++) {
+                    messages.push({
+                        author: (data[i].user1 == this.state.from) ? "You" : data[i].user1,
+                        content: data[i].content,
+                        datetime: moment(parseInt(data[i].date)).fromNow()
+                    })
+                }
+                this.setState({
+                    comments: messages
+                })
             }
-            this.setState({
-                comments : messages
-            })
-
         });
-        return []
     };
 
     handleSubmit = () => {
@@ -94,7 +96,7 @@ class Chats extends React.Component {
                 ],
             });
         }, 1000);
-        axios.post('http://192.168.99.100:3030/graphql',
+        axios.post(grapghqlPath,
             {"query":"mutation {"+
                                         "\ncreateMessage(message: {user1: \""+ this.state.from+"\", user2: \""+this.state.to+"\", subject: \""+this.state.subject+"\", content: \""+this.state.value+"\", date: \""+(new Date().getTime())+"\"}) {"+
                                             "\n user1, user2, content, date}}"
@@ -114,22 +116,21 @@ class Chats extends React.Component {
         this.setState({
             from: e.target.value,
         });
-        this.state.comments = this.getComments();
-
+        this.getComments();
     };
 
     handleChangeSubject = e => {
         this.setState({
             subject: e.target.value,
         });
-        this.state.comments = this.getComments();
+        this.getComments();
     };
 
     handleChangeTo = e => {
         this.setState({
             to: e.target.value,
         });
-        this.state.comments = this.getComments();
+        this.getComments();
     };
 
 

@@ -6,6 +6,7 @@ import Login from './components/Login.js'
 import Register from "./components/Register";
 import {Button} from "antd";
 
+export const grapghqlPath = "http://192.168.99.100:3030/graphql"; // Direccion de Ale
 
 function App() {
   return (
