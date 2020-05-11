@@ -1,6 +1,74 @@
+:root {
+    --blue1: #d4ebea;
+    --blue2: #b7dedf;
+    --blue3: #98d2d3;
+    --blue4: #71c6cc;
+}
+
 .c-container{
-    max-width: 700px;
+    max-width: 1100px;
     height: 100vh !important;
     margin: auto;
     overflow: hidden;
+}
+
+
+.code-box-demo {
+    text-align: center;
+}
+.ant-layout-header{
+    background: white;
+    color: #fff;
+    position: relative;
+}
+.ant-layout-sider {
+    background: var(--blue2);
+    color: #fff;
+    min-width: 20em !important;
+    padding: 1em;
+    overflow: auto;
+}
+.ant-layout-content {
+    background: var(--blue1);
+    color: black;
+    min-height: 120px;
+    line-height: 120px;
+}
+
+.c-header{
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 2em;
+    background: var(--blue3);
+}
+
+.c-editor{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1em 2em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: var(--blue3);
+}
+
+
+
+.c-creation{
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    background: var(--blue1);
 }

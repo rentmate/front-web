@@ -42,6 +42,12 @@ class Login extends React.Component {
                     centered: true,
                     title: 'Successful log in!',
                     content: "Welcome " + response.data.data.login.user.username+"!",
+                });
+                this.props.history.push({
+                    pathname: 'chats',
+                    state: {
+                        from: response.data.data.login.user.username,
+                    }
                 })
             }
         });
