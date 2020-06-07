@@ -9,14 +9,14 @@ import {grapghqlPath} from "../App";
 class Login extends React.Component {
 
     state = {
-        username: 'Ale',
+        email: 'Ale',
         password: 'Gary',
         errMessage: ''
     };
 
-    handleChangeUsername = e => {
+    handleChangeEmail = e => {
         this.setState({
-            username: e.target.value
+            email: e.target.value
         });
     };
 
@@ -28,7 +28,7 @@ class Login extends React.Component {
 
     handleClickLogin = e => {
         axios.post( grapghqlPath,
-            {"query":"mutation{login(login: {email: \""+this.state.username+"\", password: \""+this.state.password+"\"}){user{username}, token}}"
+            {"query":"mutation{login(login: {email: \""+this.state.email+"\", password: \""+this.state.password+"\"}){user{username}, token}}"
             }).then(response => {
             console.log(response);
             if(response.data.errors != null){
@@ -60,7 +60,7 @@ class Login extends React.Component {
                     <img className="img-logo" src={require('../images/LogoRentMate.png')} alt="" />
                 </div>
                 <div style={{ marginTop: 30, width: 400 }}>
-                    <Input addonBefore="e-mail: " defaultValue="" onChange={this.handleChangeUsername} />
+                    <Input addonBefore="e-mail: " defaultValue="" onChange={this.handleChangeEmail} />
                 </div>
                 <div style={{ marginTop: 30, width: 400 }}>
                     <Input.Password addonBefore="Password: " onChange={this.handleChangePassword} />

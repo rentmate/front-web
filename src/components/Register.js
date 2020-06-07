@@ -41,9 +41,10 @@ class Register extends React.Component {
         });
     };
 
+
     handleClickSignup = e => {
         axios.post( grapghqlPath,
-            {"query":"mutation{addUser( user: { username: \""+this.state.username+"\", email: \""+this.state.username+"\", password: \""+this.state.password+"\"}){success}}"
+            {"query":"mutation{addUser( user: { username: \""+this.state.username+"\", email: \""+this.state.email+"\", password: \""+this.state.password+"\"}){success}}"
             }).then(response => {
             console.log(response);
             if(response.data.errors != null){
