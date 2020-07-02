@@ -6,7 +6,8 @@ import Login from './components/Login.js'
 import Register from "./components/Register";
 import Advertisements from "./components/Advertisements";
 
-export const grapghqlPath = "http://192.168.99.100:3030/graphql"; // Direccion de Ale
+export const grapghqlPath = "http://34.66.189.40/graphql"; // Direccion Despliegue
+//export const grapghqlPath = "http://192.168.99.100:3030/graphql"; // Direccion de Ale
 //export const grapghqlPath = "http://172.23.0.4:3030/graphql"; // Direccion de Pau
 
 function App() {
